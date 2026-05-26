@@ -19,7 +19,7 @@ A managed "Chess Games" database in your Notion workspace, one row per game, wit
 | Opponent | Link | Opponent's username, links to their Chess.com profile |
 | Opponent Rating | Number | |
 | Time Control | Select | Bullet / Blitz / Rapid / Daily |
-| Time Control (Exact) | Select | e.g. `3 min + 2s`, `10 min`, `1 day/move` |
+| Time Control (Exact) | Text | e.g. `3 min + 2s`, `10 min`, `1 day/move` |
 | Termination | Select | Checkmate / Resignation / Timeout / Stalemate / … |
 | Total Moves | Number | |
 | Rated | Checkbox | |
@@ -124,6 +124,14 @@ npm run build    # emit dist/
 ```
 
 The worker entrypoint is `src/index.ts`; the PGN parser is `src/pgn.ts`.
+
+## Deploying from CI
+
+This repo deploys itself via GitHub Actions on every push to `main`, using [`andrewkrippner/setup-ntn`](https://github.com/andrewkrippner/setup-ntn). To do the same in your fork:
+
+1. Generate a Notion API token with access to your workspace.
+2. Add it as a `NOTION_API_TOKEN` repository secret (Settings → Secrets and variables → Actions).
+3. Push to `main`. The `deploy` job in `.github/workflows/ci.yml` will run `ntn workers deploy` for you.
 
 ## Why this exists
 

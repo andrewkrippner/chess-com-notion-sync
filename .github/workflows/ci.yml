@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   check:
@@ -26,3 +27,26 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  deploy:
+    needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - uses: andrewkrippner/setup-ntn@v1
+        with:
+          notion_api_token: ${{ secrets.NOTION_API_TOKEN }}
+
+      - name: Deploy worker
+        run: ntn workers deploy
