@@ -1,0 +1,43 @@
+{
+  "name": "chess-com-notion-sync",
+  "version": "0.1.0",
+  "description": "Sync your Chess.com games into a Notion database, hourly, with rich metadata and PGN move lists.",
+  "type": "module",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "author": "Andrew Krippner",
+  "homepage": "https://github.com/andrewkrippner/chess-com-notion-sync#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewkrippner/chess-com-notion-sync.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andrewkrippner/chess-com-notion-sync/issues"
+  },
+  "keywords": [
+    "notion",
+    "chess",
+    "chess.com",
+    "notion-worker",
+    "notion-sync",
+    "chess-flashcards",
+    "pgn"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "check": "tsc --noEmit",
+    "test": "tsx --test scripts/*.test.mts",
+    "remove-legacy-properties": "tsx scripts/remove-legacy-properties.mts"
+  },
+  "dependencies": {
+    "@notionhq/workers": "^0.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
