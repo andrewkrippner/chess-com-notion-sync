@@ -19,7 +19,7 @@ A managed "Chess Games" database in your Notion workspace, one row per game, wit
 | Opponent | Link | Opponent's username, links to their Chess.com profile |
 | Opponent Rating | Number | |
 | Time Control | Select | Bullet / Blitz / Rapid / Daily |
-| Time Control (Exact) | Text | e.g. `3 min + 2s`, `10 min`, `1 day/move` |
+| Time Control (Exact) | Select | e.g. `3 min + 2s`, `10 min`, `1 day/move` |
 | Termination | Select | Checkmate / Resignation / Timeout / Stalemate / … |
 | Total Moves | Number | |
 | Rated | Checkbox | |
