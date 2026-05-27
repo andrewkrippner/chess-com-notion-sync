@@ -40,7 +40,8 @@ jobs:
 
       - run: npm run build
 
-      - uses: andrewkrippner/setup-ntn@v1
+      - name: Setup Notion CLI
+        uses: andrewkrippner/setup-ntn@1.0.0
         with:
           notion_api_token: ${{ secrets.NOTION_API_TOKEN }}
           notion_workspace_id: ${{ secrets.NOTION_WORKSPACE_ID }}
