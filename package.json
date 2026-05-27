@@ -25,7 +25,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "worktree:setup": "bash worktree-setup.sh",
+    "worktree:archive": "bash worktree-archive.sh"
   },
   "dependencies": {
     "@notionhq/workers": "^0.3.0"
