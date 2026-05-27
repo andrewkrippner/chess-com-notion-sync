@@ -41,45 +41,53 @@ Each page's body contains the full PGN move list, formatted one move-pair per li
 
 That means you can use Notion's filters, sorts, and views to slice your games however you like: blunder hunting by opening, win rate by time control, accuracy trends, etc.
 
-## Quick start
+## Quick start (GitHub Actions)
 
-You'll need Node 22+ and a Notion account.
+This repo deploys itself: push to `master` and CI runs `ntn workers deploy` for you. To set it up on your own fork:
 
-1. **Install the Notion Workers CLI:**
+1. **Fork this repo** on GitHub.
+
+2. **Get a Notion API token** from a Notion integration with workspace access (https://www.notion.so/profile/integrations).
+
+3. **Configure the repo in GitHub** (Settings → Secrets and variables → Actions):
+
+   | Kind | Name | Value |
+   |---|---|---|
+   | Secret | `NOTION_API_TOKEN` | your Notion integration token |
+   | Secret | `NOTION_WORKSPACE_ID` | the ID of the Notion workspace to deploy into |
+   | Variable | `CHESSCOM_USERNAME` | your Chess.com username |
+   | Variable | `TIMEZONE` | e.g. `America/Los_Angeles` (optional, defaults to LA) |
+
+   Or via the `gh` CLI:
    ```bash
-   npm i -g ntn
+   gh secret set NOTION_API_TOKEN
+   gh secret set NOTION_WORKSPACE_ID
+   gh variable set CHESSCOM_USERNAME --body "yourusername"
+   gh variable set TIMEZONE --body "America/Los_Angeles"
    ```
 
-2. **Clone and install:**
-   ```bash
-   git clone https://github.com/andrewkrippner/chess-com-notion-sync.git
-   cd chess-com-notion-sync
-   npm install
-   ```
+4. **Push to `master`** (or re-run the latest workflow). CI builds, sets the worker env vars, and deploys.
 
-3. **Log in to Notion:**
-   ```bash
-   ntn login
-   ```
+Notion will then run the sync every hour automatically. The database appears in your workspace under the integration you authorized.
 
-4. **Configure your username** (and optionally timezone):
+## Quick start (CLI)
+
+Prefer to deploy from your laptop? You'll need Node 22+ and a Notion account.
+
+1. **Install the Notion Workers CLI:** `npm i -g ntn`
+2. **Clone and install:** `git clone https://github.com/andrewkrippner/chess-com-notion-sync.git && cd chess-com-notion-sync && npm install`
+3. **Log in:** `ntn login`
+4. **Configure:**
    ```bash
    ntn workers env set CHESSCOM_USERNAME=yourusername
-   ntn workers env set TIMEZONE=America/Los_Angeles   # optional, defaults to LA
+   ntn workers env set TIMEZONE=America/Los_Angeles   # optional
    ```
-
-5. **Deploy:**
-   ```bash
-   ntn workers deploy
-   ```
-
-6. **Run your first sync:**
+5. **Deploy:** `ntn workers deploy`
+6. **First sync:**
    ```bash
    ntn workers sync trigger chessGamesSync --preview   # dry run
    ntn workers sync trigger chessGamesSync             # real sync
    ```
-
-Notion will then run the sync every hour automatically. The database appears in your workspace under the integration you authorized.
 
 ## How it works
 

@@ -43,6 +43,12 @@ jobs:
       - uses: andrewkrippner/setup-ntn@v1
         with:
           notion_api_token: ${{ secrets.NOTION_API_TOKEN }}
+          notion_workspace_id: ${{ secrets.NOTION_WORKSPACE_ID }}
+
+      - name: Configure worker env
+        run: |
+          ntn workers env set CHESSCOM_USERNAME=${{ vars.CHESSCOM_USERNAME }}
+          ntn workers env set TIMEZONE=${{ vars.TIMEZONE }}
 
       - name: Deploy worker
         run: ntn workers deploy
