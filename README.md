@@ -98,28 +98,11 @@ ntn workers capabilities disable chessGamesSync  # Pause syncing
 ntn workers capabilities enable chessGamesSync   # Resume syncing
 ```
 
-## Removing legacy properties
-
-If you ran an earlier version of this worker and your database still has columns like `Rating (After)` or `Opp Rating (After)`, you can drop them with the included script. Share the data source with a Notion integration first, then:
-
-```bash
-export NOTION_API_TOKEN=secret_xxx
-export NOTION_DATA_SOURCE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-npm run remove-legacy-properties
-```
-
-Or pass custom property names:
-
-```bash
-npm run remove-legacy-properties -- "Old Column" "Another Old Column"
-```
-
 ## Development
 
 ```bash
 npm install
 npm run check    # typecheck
-npm test         # run PGN parser tests
 npm run build    # emit dist/
 ```
 
@@ -131,7 +114,7 @@ I built this for [chesscards.ai](https://chesscards.ai), a chess flashcard app I
 
 ## Contributing
 
-Bug reports, feature ideas, and PRs are welcome. Run `npm run check` and `npm test` before opening a PR.
+Bug reports, feature ideas, and PRs are welcome. Run `npm run check` before opening a PR.
 
 ## License
 
