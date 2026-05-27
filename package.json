@@ -1,7 +1,7 @@
 {
   "name": "chess-com-notion-sync",
   "version": "0.1.0",
-  "description": "Sync your Chess.com games into a Notion database, hourly, with rich metadata and PGN move lists.",
+  "description": "Sync your Chess.com games into a Notion database, with rich metadata and PGN move lists.",
   "type": "module",
   "main": "dist/index.js",
   "license": "MIT",

@@ -44,7 +44,14 @@ jobs:
         uses: andrewkrippner/setup-ntn@1.0.0
         with:
           notion_api_token: ${{ secrets.NOTION_API_TOKEN }}
-          notion_workspace_id: ${{ secrets.NOTION_WORKSPACE_ID }}
+
+      - name: Check workers.json is committed
+        run: |
+          if [ ! -f workers.json ]; then
+            echo "::error::workers.json is missing. This is a one-time local bootstrap step."
+            echo "::error::See README → 'First-time setup' for instructions."
+            exit 1
+          fi
 
       - name: Configure worker env
         run: |
@@ -52,4 +59,6 @@ jobs:
           ntn workers env set TIMEZONE=${{ vars.TIMEZONE }}
 
       - name: Deploy worker
+        env:
+          SYNC_SCHEDULE: ${{ vars.SYNC_SCHEDULE }}
         run: ntn workers deploy

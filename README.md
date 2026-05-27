@@ -1,6 +1,6 @@
 # chess-com-notion-sync
 
-Sync your [Chess.com](https://www.chess.com) games into a [Notion](https://www.notion.so) database — automatically, every hour, with rich metadata and the full move list on every page.
+Sync your [Chess.com](https://www.chess.com) games into a [Notion](https://www.notion.so) database — automatically, with rich metadata and the full move list on every page.
 
 Built as a [Notion Worker](https://developers.notion.com/docs/workers) — no server to run, no API keys to rotate. You deploy it once with the `ntn` CLI and Notion runs it on a schedule.
 
@@ -45,49 +45,44 @@ That means you can use Notion's filters, sorts, and views to slice your games ho
 
 This repo deploys itself: push to `master` and CI runs `ntn workers deploy` for you. To set it up on your own fork:
 
-1. **Fork this repo** on GitHub.
+1. **Fork this repo** on GitHub and clone your fork locally.
 
 2. **Get a Notion API token** from a Notion integration with workspace access (https://www.notion.so/profile/integrations).
 
-3. **Configure the repo in GitHub** (Settings → Secrets and variables → Actions):
+3. **First-time setup (local bootstrap).** A Notion Worker has to exist before CI can update it, and CI runners can't keep state between runs. So you create the worker once from your laptop, commit its `workers.json`, and CI takes over from there:
+
+   ```bash
+   npm i -g ntn               # install the Notion CLI
+   ntn login                  # log in to your Notion workspace
+
+   rm -f workers.json         # drop the upstream author's worker pointer
+   ntn workers deploy --name chess-com-notion-sync   # creates your worker; writes a new workers.json
+
+   git add workers.json
+   git commit -m "Bootstrap my worker"
+   git push
+   ```
+
+   The committed `workers.json` only holds your worker's UUID — it's not a secret, it's the routing identifier CI uses to find the worker on subsequent deploys.
+
+4. **Configure the repo in GitHub** (Settings → Secrets and variables → Actions):
 
    | Kind | Name | Value |
    |---|---|---|
    | Secret | `NOTION_API_TOKEN` | your Notion integration token |
-   | Secret | `NOTION_WORKSPACE_ID` | the ID of the Notion workspace to deploy into |
    | Variable | `CHESSCOM_USERNAME` | your Chess.com username |
    | Variable | `TIMEZONE` | e.g. `America/Los_Angeles` (optional, defaults to LA) |
 
    Or via the `gh` CLI:
    ```bash
    gh secret set NOTION_API_TOKEN
-   gh secret set NOTION_WORKSPACE_ID
    gh variable set CHESSCOM_USERNAME --body "yourusername"
    gh variable set TIMEZONE --body "America/Los_Angeles"
    ```
 
-4. **Push to `master`** (or re-run the latest workflow). CI builds, sets the worker env vars, and deploys.
+5. **Push to `master`** (or re-run the latest workflow). CI builds, sets the worker env vars, and deploys.
 
-Notion will then run the sync every hour automatically. The database appears in your workspace under the integration you authorized.
-
-## Quick start (CLI)
-
-Prefer to deploy from your laptop? You'll need Node 22+ and a Notion account.
-
-1. **Install the Notion Workers CLI:** `npm i -g ntn`
-2. **Clone and install:** `git clone https://github.com/andrewkrippner/chess-com-notion-sync.git && cd chess-com-notion-sync && npm install`
-3. **Log in:** `ntn login`
-4. **Configure:**
-   ```bash
-   ntn workers env set CHESSCOM_USERNAME=yourusername
-   ntn workers env set TIMEZONE=America/Los_Angeles   # optional
-   ```
-5. **Deploy:** `ntn workers deploy`
-6. **First sync:**
-   ```bash
-   ntn workers sync trigger chessGamesSync --preview   # dry run
-   ntn workers sync trigger chessGamesSync             # real sync
-   ```
+Notion will then run the sync automatically. The database appears in your workspace under the integration you authorized.
 
 ## How it works
 
@@ -118,7 +113,7 @@ The worker entrypoint is `src/index.ts`; the PGN parser is `src/pgn.ts`.
 
 ## Why this exists
 
-I built this for [chesscards.ai](https://chesscards.ai), a chess flashcard app I'm working on, but the sync turned out to be useful on its own — Notion is a surprisingly nice place to keep a chess journal. Hourly automatic ingestion + rich filterable metadata gets you most of the way to a personal Chess.com dashboard with zero infrastructure.
+I built this for [chesscards.ai](https://chesscards.ai), a chess flashcard app I'm working on, but the sync turned out to be useful on its own — Notion is a surprisingly nice place to keep a chess journal. Automatic ingestion + rich filterable metadata gets you most of the way to a personal Chess.com dashboard with zero infrastructure.
 
 ## Contributing
 

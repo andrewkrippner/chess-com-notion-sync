@@ -1,4 +1,4 @@
-import { Worker } from "@notionhq/workers";
+import { Worker, type Schedule } from "@notionhq/workers";
 import * as Schema from "@notionhq/workers/schema";
 import * as Builder from "@notionhq/workers/builder";
 import { extractMoves } from "./pgn.js";
@@ -337,8 +337,7 @@ interface SyncState {
 worker.sync("chessGamesSync", {
   database: gamesDb,
   mode: "incremental",
-  schedule: "1h",
-
+  schedule: (process.env.SYNC_SCHEDULE ?? "1d") as Schedule,
   execute: async (state: SyncState | undefined) => {
     if (!CHESSCOM_USERNAME) {
       throw new Error(
