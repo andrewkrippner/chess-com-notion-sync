@@ -25,16 +25,13 @@
   ],
   "scripts": {
     "build": "tsc",
-    "check": "tsc --noEmit",
-    "test": "tsx --test scripts/*.test.mts",
-    "remove-legacy-properties": "tsx scripts/remove-legacy-properties.mts"
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "@notionhq/workers": "^0.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "tsx": "^4.0.0",
     "typescript": "^5.7.0"
   },
   "engines": {
