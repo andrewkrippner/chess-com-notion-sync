@@ -95,10 +95,10 @@ Notion will then run the sync automatically. The database appears in your worksp
 
 ```bash
 ntn workers sync status                          # Check sync status
-ntn workers sync trigger chessGamesSync          # Force a sync now
-ntn workers sync state reset chessGamesSync      # Re-sync all games from scratch
-ntn workers capabilities disable chessGamesSync  # Pause syncing
-ntn workers capabilities enable chessGamesSync   # Resume syncing
+ntn workers sync trigger chessComNotionSync          # Force a sync now
+ntn workers sync state reset chessComNotionSync      # Re-sync all games from scratch
+ntn workers capabilities disable chessComNotionSync  # Pause syncing
+ntn workers capabilities enable chessComNotionSync   # Resume syncing
 ```
 
 ## Development

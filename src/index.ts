@@ -334,7 +334,7 @@ interface SyncState {
 // Sync definition
 // ---------------------------------------------------------------------------
 
-worker.sync("chessGamesSync", {
+worker.sync("chessComNotionSync", {
   database: gamesDb,
   mode: "incremental",
   schedule: (process.env.SYNC_SCHEDULE ?? "1d") as Schedule,
