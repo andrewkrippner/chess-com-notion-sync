@@ -30,10 +30,10 @@ Deploy / operate (requires `ntn` CLI and a Notion login):
 
 ```bash
 ntn workers deploy
-ntn workers sync trigger chessGamesSync --preview   # dry run
-ntn workers sync trigger chessGamesSync             # real sync
+ntn workers sync trigger chessComNotionSync --preview   # dry run
+ntn workers sync trigger chessComNotionSync             # real sync
 ntn workers sync status
-ntn workers sync state reset chessGamesSync         # re-sync from scratch
+ntn workers sync state reset chessComNotionSync         # re-sync from scratch
 ```
 
 Env vars consumed by the worker: `CHESSCOM_USERNAME` (required), `TIMEZONE` (optional, defaults to `America/Los_Angeles`).
